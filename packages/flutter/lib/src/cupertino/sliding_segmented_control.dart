@@ -310,6 +310,8 @@ class CupertinoSlidingSegmentedControl<T> extends StatefulWidget {
     this.thumbColor = _kThumbColor,
     this.padding = _kHorizontalItemPadding,
     this.backgroundColor = CupertinoColors.tertiarySystemFill,
+    this.thumbBorderRadius = _kThumbRadius,
+    this.borderRadius = _kCornerRadius,
   }) : assert(children != null),
        assert(children.length >= 2),
        assert(padding != null),
@@ -319,6 +321,12 @@ class CupertinoSlidingSegmentedControl<T> extends StatefulWidget {
          'The groupValue must be either null or one of the keys in the children map.',
        ),
        super(key: key);
+  
+  /// Give the thumb a borderRadius with this attribute
+  final double thumbBorderRadius;
+  
+  ///Give this Widget's container a borderRadius with this attribute
+  final double borderRadius;
 
   /// The identifying keys and corresponding widget values in the
   /// segmented control.
@@ -679,7 +687,7 @@ class _SegmentedControlState<T> extends State<CupertinoSlidingSegmentedControl<T
       child: Container(
         padding: widget.padding.resolve(Directionality.of(context)),
         decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(_kCornerRadius)),
+          borderRadius: const BorderRadius.all(Radius.circular(borderRadius)),
           color: CupertinoDynamicColor.resolve(widget.backgroundColor, context),
         ),
         child: AnimatedBuilder(
@@ -1083,7 +1091,7 @@ class _RenderSegmentedControl<T> extends RenderBox
       ),
     ];
 
-    final RRect thumbRRect = RRect.fromRectAndRadius(thumbRect.shift(offset), _kThumbRadius);
+    final RRect thumbRRect = RRect.fromRectAndRadius(thumbRect.shift(offset), thumbBorderRadius);
 
     for (final BoxShadow shadow in thumbShadow) {
       context.canvas.drawRRect(thumbRRect.shift(shadow.offset), shadow.toPaint());
